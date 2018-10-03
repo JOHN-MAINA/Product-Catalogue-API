@@ -1,7 +1,12 @@
 package main
 
-import "./database/migrations"
+import (
+	"./database/migrations"
+	"./handlers"
+)
 
 func main() {
 	migrations.Migrate()
+
+	handlers.Init()
 }

@@ -19,8 +19,6 @@ func Connect() gorm.DB {
 		panic(err.Error())
 	}
 
-	fmt.Println(db.DB().Ping())
-
 	//defer db.Close()
 	return *db
 

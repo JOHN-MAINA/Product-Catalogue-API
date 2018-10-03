@@ -8,11 +8,19 @@ import (
 	"github.com/rs/cors"
 	"net/http"
 	"os"
+	"encoding/json"
 )
 
 var r = mux.NewRouter()
 
 func Init() {
+	r.HandleFunc("/status", func(writer http.ResponseWriter, request *http.Request) {
+		status := "Running"
+
+		writer.Header().Set("Content-type", "application/json")
+		json.NewEncoder(writer).Encode(status)
+	})
+
 	c := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"},
 		AllowedMethods: []string{"PUT", "GET", "POST"},
