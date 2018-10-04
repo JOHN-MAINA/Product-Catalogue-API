@@ -19,5 +19,5 @@ type Category struct {
 	CreatedAt time.Time  `json:"created_at"`
 	UpdatedAt time.Time  `json:"updated_at"`
 	DeletedAt *time.Time `json:"deleted_at"`
-	Name      string     `gorm:"not null" json:"name"`
+	Name      string     `gorm:"not null;unique" json:"name"`
 }
