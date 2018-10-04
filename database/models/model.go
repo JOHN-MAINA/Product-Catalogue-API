@@ -3,6 +3,7 @@ package models
 import (
 	"../database"
 	"../migrations"
+	"fmt"
 )
 
 func CreateCategory(category migrations.Category) (migrations.Category, error) {
@@ -62,6 +63,58 @@ func UpdateCategory(category migrations.Category, id int) (migrations.Category, 
 }
 
 func DeleteCategory(id int) error {
+	db := database.Connect()
+	defer db.Close()
+
+	var category migrations.Category
+	err := db.First(&category, id).Error
+
+	if err != nil {
+		return err
+	}
+
+	db.Delete(&category)
+	return err
+}
+
+func CreateProduct(product migrations.Product) (migrations.Product, error) {
+	db := database.Connect()
+	defer db.Close()
+
+	err := db.Create(&product).Error
+
+	return product, err
+}
+
+func GetProducts(sort string, sortDir string, limit int, offset int) ([]migrations.Product, error) {
+	db := database.Connect()
+	defer database.CloseConnection(db)
+
+	var products []migrations.Product
+
+	err := db.Order(fmt.Sprintf("%s %s", sort, sortDir)).Limit(limit).Offset(offset).Preload("Category").Find(&products).Error
+
+	return products, err
+}
+
+func UpdateProduct(category migrations.Category, id int) (migrations.Category, error) {
+	db := database.Connect()
+	defer db.Close()
+
+	var savedCate migrations.Category
+
+	err := db.First(&savedCate, id).Error
+
+	if err != nil {
+		return category, err
+	}
+
+	err = db.Model(&savedCate).Update(migrations.Category{Name: category.Name}).Error
+
+	return savedCate, err
+}
+
+func DeleteProduct(id int) error {
 	db := database.Connect()
 	defer db.Close()
 

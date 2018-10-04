@@ -39,7 +39,7 @@ func CreateCategory(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w).Encode(err)
 		return
 	}
-	payment, err := models.CreateCategory(category)
+	category, err = models.CreateCategory(category)
 
 	if err != nil {
 		w.WriteHeader(http.StatusForbidden)
@@ -47,7 +47,7 @@ func CreateCategory(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(payment)
+	json.NewEncoder(w).Encode(category)
 }
 
 func UpdateCategory(w http.ResponseWriter, r *http.Request) {
