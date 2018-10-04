@@ -1,17 +1,23 @@
 package migrations
 
 import (
-	"github.com/jinzhu/gorm"
+	"time"
 )
 
 type Product struct {
-	gorm.Model
-	Name       string
-	Category   Category
-	CategoryID uint
+	ID         uint       `gorm:"primary_key"json:"id"`
+	CreatedAt  time.Time  `json:"created_at"`
+	UpdatedAt  time.Time  `json:"updated_at"`
+	DeletedAt  *time.Time `json:"deleted_at"`
+	Name       string     `gorm:"not null" json:"name"`
+	Category   Category   `json:"category"gorm:"foreignkey:CategoryID"`
+	CategoryID uint       `gorm:"not null" json:"category_id"`
 }
 
 type Category struct {
-	gorm.Model
-	Name string
+	ID        uint       `gorm:"primary_key"json:"id"`
+	CreatedAt time.Time  `json:"created_at"`
+	UpdatedAt time.Time  `json:"updated_at"`
+	DeletedAt *time.Time `json:"deleted_at"`
+	Name      string     `gorm:"not null" json:"name"`
 }

@@ -3,9 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="876cd78d-6db9-4a65-8238-888387eb90b8" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/category_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/category_controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/controllers/product_controller.go" beforeDir="false" afterPath="$PROJECT_DIR$/controllers/product_controller.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handlers/handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/handlers/handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/database/migrations/migrations.go" beforeDir="false" afterPath="$PROJECT_DIR$/database/migrations/migrations.go" afterDir="false" />
     </list>
     <list id="d908bba2-888a-433e-bb14-f459e0cb3547" name="local changes" comment="">
       <change beforePath="$PROJECT_DIR$/config/config.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/config.go" afterDir="false" />
@@ -52,38 +50,8 @@
       <file leaf-file-name="product_controller.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/product_controller.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="267">
-              <caret line="18" column="1" lean-forward="true" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="handler.go" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/handlers/handler.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="29" column="73" selection-start-line="29" selection-start-column="73" selection-end-line="29" selection-end-column="73" />
-              <folding>
-                <element signature="e#18#162#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="model.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/database/models/model.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="1" selection-start-line="1" selection-end-line="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="12" selection-start-line="12" selection-end-line="12" />
+            <state relative-caret-position="282">
+              <caret line="19" selection-start-line="19" selection-end-line="19" />
             </state>
           </provider>
         </entry>
@@ -92,25 +60,57 @@
         <entry file="file://$PROJECT_DIR$/config/config.go">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="135">
-              <caret line="9" column="18" lean-forward="true" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
+              <caret line="9" column="18" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="migrations.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/database/migrations/migrations.go">
+      <file leaf-file-name="main.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/main.go">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="15" column="15" selection-start-line="15" selection-start-column="15" selection-end-line="15" selection-end-column="15" />
+            <state relative-caret-position="180">
+              <caret line="12" selection-start-line="12" selection-end-line="12" />
+              <folding>
+                <element signature="e#14#38#0" expanded="true" />
+              </folding>
             </state>
           </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="migrations.go" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/database/migrations/migrations.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="315">
+              <caret line="21" column="54" lean-forward="true" selection-start-line="21" selection-start-column="54" selection-end-line="21" selection-end-column="54" />
+              <folding>
+                <element signature="e#20#56#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="console_1.sql" pinned="false" current-in-tab="false">
+        <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/ba2d744c-8a7e-4042-833d-03797ac87797/console_1.sql">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file leaf-file-name="category_controller.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/controllers/category_controller.go">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="315">
-              <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
+              <caret line="21" selection-start-line="21" selection-end-line="21" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="database.go" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/database/database/database.go">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="252">
+              <caret line="20" selection-start-line="20" selection-end-line="20" />
+              <folding>
+                <element signature="e#18#121#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -140,14 +140,14 @@
         <option value="$PROJECT_DIR$/controllers/ProductController.go" />
         <option value="$PROJECT_DIR$/database/database.go" />
         <option value="$PROJECT_DIR$/database/migrations/migrate.go" />
-        <option value="$PROJECT_DIR$/database/migrations/migrations.go" />
         <option value="$PROJECT_DIR$/database/models/model.go" />
         <option value="$PROJECT_DIR$/config/config.go" />
-        <option value="$PROJECT_DIR$/main.go" />
-        <option value="$PROJECT_DIR$/database/database/database.go" />
         <option value="$PROJECT_DIR$/controllers/product_controller.go" />
         <option value="$PROJECT_DIR$/controllers/category_controller.go" />
         <option value="$PROJECT_DIR$/handlers/handler.go" />
+        <option value="$PROJECT_DIR$/database/database/database.go" />
+        <option value="$PROJECT_DIR$/main.go" />
+        <option value="$PROJECT_DIR$/database/migrations/migrations.go" />
       </list>
     </option>
   </component>
@@ -183,6 +183,29 @@
               <item name="Product-Catalogue-API" type="b2602c69:ProjectViewProjectNode" />
               <item name="Product-Catalogue-API" type="462c0819:PsiDirectoryNode" />
               <item name="controllers" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Product-Catalogue-API" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Product-Catalogue-API" type="462c0819:PsiDirectoryNode" />
+              <item name="database" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Product-Catalogue-API" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Product-Catalogue-API" type="462c0819:PsiDirectoryNode" />
+              <item name="database" type="462c0819:PsiDirectoryNode" />
+              <item name="database" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Product-Catalogue-API" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Product-Catalogue-API" type="462c0819:PsiDirectoryNode" />
+              <item name="database" type="462c0819:PsiDirectoryNode" />
+              <item name="migrations" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Product-Catalogue-API" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Product-Catalogue-API" type="462c0819:PsiDirectoryNode" />
+              <item name="database" type="462c0819:PsiDirectoryNode" />
+              <item name="models" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Product-Catalogue-API" type="b2602c69:ProjectViewProjectNode" />
@@ -247,10 +270,10 @@
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2533229" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="right" id="Database" order="3" weight="0.23924941" />
+      <window_info active="true" anchor="right" id="Database" order="3" visible="true" weight="0.23924941" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3295082" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.3295082" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3295082" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.3295082" />
       <window_info id="Favorites" order="2" side_tool="true" />
@@ -273,7 +296,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="project setup/ initial commit" />
     <MESSAGE value="add project global configurations" />
-    <option name="LAST_COMMIT_MESSAGE" value="add project global configurations" />
+    <MESSAGE value="list api endpoints" />
+    <option name="LAST_COMMIT_MESSAGE" value="list api endpoints" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/controllers/product_controller.go">
@@ -328,6 +352,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="15" column="15" lean-forward="true" selection-start-line="15" selection-start-column="15" selection-end-line="15" selection-end-column="15" />
+          <folding>
+            <element signature="e#20#56#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -372,12 +399,36 @@
     <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/ba2d744c-8a7e-4042-833d-03797ac87797/console.sql">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/main.go">
+    <entry file="file://$PROJECT_DIR$/controllers/product_controller.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="12" selection-start-line="12" selection-end-line="12" />
+        <state relative-caret-position="282">
+          <caret line="19" selection-start-line="19" selection-end-line="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/controllers/category_controller.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/handlers/handler.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-60">
+          <caret line="23" lean-forward="true" selection-start-line="23" selection-end-line="23" />
           <folding>
-            <element signature="e#14#63#0" expanded="true" />
+            <element signature="e#18#162#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/database/database.go">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="20" selection-start-line="20" selection-end-line="20" />
+          <folding>
+            <element signature="e#18#121#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -385,47 +436,29 @@
     <entry file="file://$PROJECT_DIR$/config/config.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
-          <caret line="9" column="18" lean-forward="true" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
+          <caret line="9" column="18" selection-start-line="9" selection-start-column="18" selection-end-line="9" selection-end-column="18" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/database/database.go">
+    <entry file="file://$PROJECT_DIR$/main.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="5" selection-start-line="19" selection-start-column="5" selection-end-line="19" selection-end-column="5" />
+        <state relative-caret-position="180">
+          <caret line="12" selection-start-line="12" selection-end-line="12" />
           <folding>
-            <element signature="e#18#121#0" expanded="true" />
+            <element signature="e#14#38#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/ba2d744c-8a7e-4042-833d-03797ac87797/console_1.sql">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/database/migrations/migrations.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="15" column="15" selection-start-line="15" selection-start-column="15" selection-end-line="15" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/product_controller.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="267">
-          <caret line="18" column="1" lean-forward="true" selection-start-line="18" selection-start-column="1" selection-end-line="18" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/controllers/category_controller.go">
-      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
-          <caret line="21" lean-forward="true" selection-start-line="21" selection-end-line="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/handlers/handler.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="29" column="73" selection-start-line="29" selection-start-column="73" selection-end-line="29" selection-end-column="73" />
+          <caret line="21" column="54" lean-forward="true" selection-start-line="21" selection-start-column="54" selection-end-line="21" selection-end-column="54" />
           <folding>
-            <element signature="e#18#162#0" expanded="true" />
+            <element signature="e#20#56#0" expanded="true" />
           </folding>
         </state>
       </provider>
