@@ -20,4 +20,14 @@ type Category struct {
 	UpdatedAt time.Time  `json:"updated_at"`
 	DeletedAt *time.Time `json:"deleted_at"`
 	Name      string     `gorm:"not null;unique" json:"name"`
+	Products  []Product  `gorm:"foreignkey:CategoryID" json:"products"`
+}
+
+type CategoryWithCount struct {
+	ID           uint       `json:"id"`
+	CreatedAt    time.Time  `json:"created_at"`
+	UpdatedAt    time.Time  `json:"updated_at"`
+	DeletedAt    *time.Time `json:"deleted_at"`
+	Name         string     `json:"name"`
+	ProductCount int64      `json:"product_count"`
 }
