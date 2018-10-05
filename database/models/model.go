@@ -77,6 +77,17 @@ func DeleteCategory(id int) error {
 	return err
 }
 
+func GetCategoryProducts(categoryId int, sort string, sortDir string, limit int, offset int) ([]migrations.Product, error) {
+	db := database.Connect()
+	defer database.CloseConnection(db)
+
+	var products []migrations.Product
+
+	err := db.Where("category_id = ?", categoryId).Order(fmt.Sprintf("%s %s", sort, sortDir)).Limit(limit).Offset(offset).Preload("Category").Find(&products).Error
+
+	return products, err
+}
+
 func CreateProduct(product migrations.Product) (migrations.Product, error) {
 	db := database.Connect()
 	defer db.Close()

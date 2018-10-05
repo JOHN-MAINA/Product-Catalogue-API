@@ -90,9 +90,9 @@ func DeleteCategory(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
 
-	product, _ := strconv.Atoi(vars["category"])
+	category, _ := strconv.Atoi(vars["category"])
 
-	err := models.DeleteCategory(product)
+	err := models.DeleteCategory(category)
 
 	if err != nil {
 		w.WriteHeader(http.StatusForbidden)
@@ -104,5 +104,51 @@ func DeleteCategory(w http.ResponseWriter, r *http.Request) {
 }
 
 func CategoryProducts(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-type", "application/json")
+	var sort, sortDir = "name", "desc"
+	var limit, offset = 10, 0
+
+	sortParam, _ := r.URL.Query()["sort"]
+	if len(sortParam) >= 1 {
+		sort = sortParam[0]
+	}
+
+	sortDirParam, _ := r.URL.Query()["sort_dir"]
+	if len(sortDirParam) >= 1 {
+		sortDir = sortDirParam[0]
+	}
+
+	limitParam, _ := r.URL.Query()["count"]
+	if len(limitParam) >= 1 {
+		limitInt, err := strconv.Atoi(limitParam[0])
+		if err == nil {
+			limit = limitInt
+		}
+	}
+
+	offsetParam, _ := r.URL.Query()["offset"]
+	if len(offsetParam) >= 1 {
+		offsetInt, err := strconv.Atoi(offsetParam[0])
+		if err == nil {
+			offset = offsetInt
+		}
+	}
+	vars := mux.Vars(r)
+
+	category, err := strconv.Atoi(vars["category"])
+
+	if err != nil {
+		w.WriteHeader(http.StatusForbidden)
+		json.NewEncoder(w).Encode(err.Error())
+		return
+	}
+
+	products, err := models.GetCategoryProducts(category, sort, sortDir, limit, offset)
+	if err != nil {
+		w.WriteHeader(http.StatusForbidden)
+		json.NewEncoder(w).Encode(err.Error())
+		return
+	}
+	json.NewEncoder(w).Encode(products)
 
 }

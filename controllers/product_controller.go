@@ -41,13 +41,13 @@ func GetProducts(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	categories, err := models.GetProducts(sort, sortDir, limit, offset)
+	products, err := models.GetProducts(sort, sortDir, limit, offset)
 	if err != nil {
 		w.WriteHeader(http.StatusForbidden)
 		json.NewEncoder(w).Encode(err.Error())
 		return
 	}
-	json.NewEncoder(w).Encode(categories)
+	json.NewEncoder(w).Encode(products)
 }
 
 func CreateProduct(w http.ResponseWriter, r *http.Request) {
