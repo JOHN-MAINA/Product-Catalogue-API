@@ -97,34 +97,34 @@ func GetProducts(sort string, sortDir string, limit int, offset int) ([]migratio
 	return products, err
 }
 
-func UpdateProduct(category migrations.Category, id int) (migrations.Category, error) {
+func UpdateProduct(product migrations.Product, id int) (migrations.Product, error) {
 	db := database.Connect()
 	defer db.Close()
 
-	var savedCate migrations.Category
+	var savedProd migrations.Product
 
-	err := db.First(&savedCate, id).Error
+	err := db.First(&savedProd, id).Error
 
 	if err != nil {
-		return category, err
+		return product, err
 	}
 
-	err = db.Model(&savedCate).Update(migrations.Category{Name: category.Name}).Error
+	err = db.Model(&savedProd).Update(migrations.Product{Name: product.Name, CategoryID: product.CategoryID}).Error
 
-	return savedCate, err
+	return savedProd, err
 }
 
 func DeleteProduct(id int) error {
 	db := database.Connect()
 	defer db.Close()
 
-	var category migrations.Category
-	err := db.First(&category, id).Error
+	var product migrations.Product
+	err := db.First(&product, id).Error
 
 	if err != nil {
 		return err
 	}
 
-	db.Delete(&category)
+	db.Delete(&product)
 	return err
 }

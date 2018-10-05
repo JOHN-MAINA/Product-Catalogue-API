@@ -73,7 +73,7 @@ func UpdateCategory(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	payment, err := models.UpdateCategory(category, id)
+	category, err = models.UpdateCategory(category, id)
 
 	if err != nil {
 		w.WriteHeader(http.StatusForbidden)
@@ -81,7 +81,7 @@ func UpdateCategory(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(payment)
+	json.NewEncoder(w).Encode(category)
 
 }
 
@@ -90,9 +90,9 @@ func DeleteCategory(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
 
-	id, _ := strconv.Atoi(vars["category"])
+	product, _ := strconv.Atoi(vars["category"])
 
-	err := models.DeleteCategory(id)
+	err := models.DeleteCategory(product)
 
 	if err != nil {
 		w.WriteHeader(http.StatusForbidden)

@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"encoding/json"
 	"strconv"
+	"github.com/gorilla/mux"
 )
 
 func GetProducts(w http.ResponseWriter, r *http.Request) {
@@ -79,9 +80,53 @@ func CreateProduct(w http.ResponseWriter, r *http.Request) {
 }
 
 func UpdateProduct(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-type", "application/json")
+	var product migrations.Product
 
+	vars := mux.Vars(r)
+
+	id, _ := strconv.Atoi(vars["product"])
+	mapErr := json.NewDecoder(r.Body).Decode(&product)
+
+	if mapErr != nil {
+		w.WriteHeader(http.StatusForbidden)
+		json.NewEncoder(w).Encode(mapErr.Error())
+		return
+	}
+
+	err := product.ValidateProduct()
+
+	if err != nil {
+		w.WriteHeader(http.StatusForbidden)
+		json.NewEncoder(w).Encode(err)
+		return
+	}
+
+	product, err = models.UpdateProduct(product, id)
+
+	if err != nil {
+		w.WriteHeader(http.StatusForbidden)
+		json.NewEncoder(w).Encode(err.Error())
+		return
+	}
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(product)
 }
 
 func DeleteProduct(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-type", "application/json")
 
+	vars := mux.Vars(r)
+
+	id, _ := strconv.Atoi(vars["product"])
+
+	err := models.DeleteProduct(id)
+
+	if err != nil {
+		w.WriteHeader(http.StatusForbidden)
+		json.NewEncoder(w).Encode(err.Error())
+		return
+	}
+	w.WriteHeader(http.StatusAccepted)
+	json.NewEncoder(w).Encode("Successfully deleted")
 }
