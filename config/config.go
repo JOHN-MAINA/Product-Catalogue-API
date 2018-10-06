@@ -1,11 +1,11 @@
 package config
 
 const (
-	DbName = "product_catalogue"
+	DbName = ""
 
-	DbUser = "root"
+	DbUser = ""
 
-	DbPass = "gemini"
+	DbPass = ""
 
 	AppPort = 3001
 )
