@@ -31,7 +31,7 @@ func GetCategories() ([]migrations.CategoryWithCount, error) {
 	for _, category := range categories {
 		var categoryWithCount migrations.CategoryWithCount
 		var count int64
-		db.Raw("SELECT count(id) FROM products WHERE category_id = ", category.ID).Scan(&count)
+		db.Model(&migrations.Product{}).Where("category_id = ?", category.ID).Count(&count)
 
 		categoryWithCount.Name = category.Name
 		categoryWithCount.ID = category.ID
