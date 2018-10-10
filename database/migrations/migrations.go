@@ -14,6 +14,11 @@ type Product struct {
 	CategoryID uint       `gorm:"not null" json:"category_id"`
 }
 
+type ProductWithCount struct {
+	Products      []Product `json:"products"`
+	ProductsCount int64     `json:"products_count"`
+}
+
 type Category struct {
 	ID        uint       `gorm:"primary_key"json:"id"`
 	CreatedAt time.Time  `json:"created_at"`
