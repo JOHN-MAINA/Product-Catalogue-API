@@ -128,5 +128,5 @@ func (prodCtrl ProductController) DeleteProduct(w http.ResponseWriter, r *http.R
 		ResponseWriter(w, http.StatusNotFound, err.Error())
 		return
 	}
-	ResponseWriter(w, http.StatusForbidden, "Successfully deleted")
+	ResponseWriter(w, http.StatusAccepted, "Successfully deleted")
 }
