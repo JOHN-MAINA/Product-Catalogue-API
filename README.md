@@ -33,7 +33,7 @@ The product management catalogue is a simple application to keep track of produc
     
     ```
 
-1. Configure database credential in /config/config.go
+1. Configure database credential in requires `mysql` database /config/config.go
 
 1. Set port number that the application will be served through default is set to `3001`
 
