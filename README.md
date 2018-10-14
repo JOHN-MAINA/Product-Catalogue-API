@@ -3,6 +3,8 @@ The product management catalogue is a simple application to keep track of produc
 
 ##Dependencies
 
+1. Mysql Database
+
 1. github.com/gorilla/mux
 
 1. github.com/go-ozzo/ozzo-validation
@@ -25,7 +27,11 @@ The product management catalogue is a simple application to keep track of produc
 
 1. install dependencies
 
-    `go get -u <dependecies name listed above>`
+    ```
+    cd Product-Catalogue-API
+    go get ./...
+    
+    ```
 
 1. Configure database credential in /config/config.go
 
