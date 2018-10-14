@@ -1,15 +1,19 @@
 package controllers
 
 import (
-	"../database/migrations"
-	"../database/models"
 	"encoding/json"
+	"github.com/JOHN-MAINA/Product-Catalogue-API/database/migrations"
+	"github.com/JOHN-MAINA/Product-Catalogue-API/database/models"
 	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
 )
 
-func GetCategories(w http.ResponseWriter, r *http.Request) {
+type CategoryController struct {
+	Model models.CategoryModel
+}
+
+func (catCtrl CategoryController) GetCategories(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", "application/json")
 
 	var sort, sortDir, search = "name", "desc", ""
@@ -46,46 +50,40 @@ func GetCategories(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	categories, err := models.GetCategories(sort, sortDir, limit, offset, search)
+	categories, err := catCtrl.Model.GetCategories(sort, sortDir, limit, offset, search)
 	if err != nil {
-		w.WriteHeader(http.StatusForbidden)
-		json.NewEncoder(w).Encode(err.Error())
+		ResponseWriter(w, http.StatusForbidden, err.Error())
 		return
 	}
-	json.NewEncoder(w).Encode(categories)
+	ResponseWriter(w, http.StatusOK, categories)
+
 }
 
-func CreateCategory(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-type", "application/json")
+func (catCtrl CategoryController) CreateCategory(w http.ResponseWriter, r *http.Request) {
 	var category migrations.Category
 	mapErr := json.NewDecoder(r.Body).Decode(&category)
 
 	if mapErr != nil {
-		w.WriteHeader(http.StatusForbidden)
-		json.NewEncoder(w).Encode(mapErr.Error())
+		ResponseWriter(w, http.StatusForbidden, mapErr.Error())
 		return
 	}
 
 	err := category.ValidateCategory()
 
 	if err != nil {
-		w.WriteHeader(http.StatusForbidden)
-		json.NewEncoder(w).Encode(err)
+		ResponseWriter(w, http.StatusForbidden, err.Error())
 		return
 	}
-	category, err = models.CreateCategory(category)
+	category, err = catCtrl.Model.CreateCategory(category)
 
 	if err != nil {
-		w.WriteHeader(http.StatusForbidden)
-		json.NewEncoder(w).Encode(err.Error())
+		ResponseWriter(w, http.StatusForbidden, err.Error())
 		return
 	}
-	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(category)
+	ResponseWriter(w, http.StatusCreated, category)
 }
 
-func UpdateCategory(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-type", "application/json")
+func (catCtrl CategoryController) UpdateCategory(w http.ResponseWriter, r *http.Request) {
 	var category migrations.Category
 
 	vars := mux.Vars(r)
@@ -94,45 +92,42 @@ func UpdateCategory(w http.ResponseWriter, r *http.Request) {
 	mapErr := json.NewDecoder(r.Body).Decode(&category)
 
 	if mapErr != nil {
-		w.WriteHeader(http.StatusForbidden)
-		json.NewEncoder(w).Encode(mapErr.Error())
+		ResponseWriter(w, http.StatusForbidden, mapErr.Error())
 		return
 	}
 
 	err := category.ValidateCategory()
 
 	if err != nil {
-		w.WriteHeader(http.StatusForbidden)
-		json.NewEncoder(w).Encode(err)
+		ResponseWriter(w, http.StatusForbidden, err.Error())
 		return
 	}
 
-	category, err = models.UpdateCategory(category, id)
+	category, err = catCtrl.Model.UpdateCategory(category, id)
 
 	if err != nil {
-		w.WriteHeader(http.StatusForbidden)
-		json.NewEncoder(w).Encode(err.Error())
+		ResponseWriter(w, http.StatusNotFound, err.Error())
 		return
 	}
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(category)
-
+	ResponseWriter(w, http.StatusOK, category)
 }
 
-func DeleteCategory(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-type", "application/json")
-
+func (catCtrl CategoryController) DeleteCategory(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
 	category, _ := strconv.Atoi(vars["category"])
 
-	err := models.DeleteCategory(category)
+	err := catCtrl.Model.DeleteCategory(category)
 
 	if err != nil {
-		w.WriteHeader(http.StatusForbidden)
-		json.NewEncoder(w).Encode(err.Error())
+		ResponseWriter(w, http.StatusNotFound, err.Error())
 		return
 	}
-	w.WriteHeader(http.StatusAccepted)
-	json.NewEncoder(w).Encode("Successfully deleted")
+	ResponseWriter(w, http.StatusAccepted, "Successfully deleted")
+}
+
+func ResponseWriter(w http.ResponseWriter, status int, resp interface{}) {
+	w.Header().Set("Content-type", "application/json")
+	w.WriteHeader(status)
+	json.NewEncoder(w).Encode(resp)
 }

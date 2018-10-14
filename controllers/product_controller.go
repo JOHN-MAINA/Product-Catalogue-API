@@ -1,17 +1,19 @@
 package controllers
 
 import (
-	"../database/migrations"
-	"../database/models"
 	"encoding/json"
+	"github.com/JOHN-MAINA/Product-Catalogue-API/database/migrations"
+	"github.com/JOHN-MAINA/Product-Catalogue-API/database/models"
 	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
 )
 
-func GetProducts(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-type", "application/json")
+type ProductController struct {
+	Model models.ProductModel
+}
 
+func (prodCtrl ProductController) GetProducts(w http.ResponseWriter, r *http.Request) {
 	var sort, sortDir, search = "name", "desc", ""
 	var limit, offset, categoryId = 10, 0, 0
 
@@ -54,46 +56,39 @@ func GetProducts(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	products, err := models.GetProducts(sort, sortDir, limit, offset, search, categoryId)
+	products, err := prodCtrl.Model.GetProducts(sort, sortDir, limit, offset, search, categoryId)
 	if err != nil {
-		w.WriteHeader(http.StatusForbidden)
-		json.NewEncoder(w).Encode(err.Error())
+		ResponseWriter(w, http.StatusForbidden, err.Error())
 		return
 	}
-	json.NewEncoder(w).Encode(products)
+	ResponseWriter(w, http.StatusOK, products)
 }
 
-func CreateProduct(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-type", "application/json")
+func (prodCtrl ProductController) CreateProduct(w http.ResponseWriter, r *http.Request) {
 	var product migrations.Product
 	mapErr := json.NewDecoder(r.Body).Decode(&product)
 
 	if mapErr != nil {
-		w.WriteHeader(http.StatusForbidden)
-		json.NewEncoder(w).Encode(mapErr.Error())
+		ResponseWriter(w, http.StatusForbidden, mapErr.Error())
 		return
 	}
 
 	err := product.ValidateProduct()
 
 	if err != nil {
-		w.WriteHeader(http.StatusForbidden)
-		json.NewEncoder(w).Encode(err)
+		ResponseWriter(w, http.StatusForbidden, err.Error())
 		return
 	}
-	product, err = models.CreateProduct(product)
+	product, err = prodCtrl.Model.CreateProduct(product)
 
 	if err != nil {
-		w.WriteHeader(http.StatusForbidden)
-		json.NewEncoder(w).Encode(err.Error())
+		ResponseWriter(w, http.StatusForbidden, err.Error())
 		return
 	}
-	w.WriteHeader(http.StatusCreated)
-	json.NewEncoder(w).Encode(product)
+	ResponseWriter(w, http.StatusCreated, product)
 }
 
-func UpdateProduct(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-type", "application/json")
+func (prodCtrl ProductController) UpdateProduct(w http.ResponseWriter, r *http.Request) {
 	var product migrations.Product
 
 	vars := mux.Vars(r)
@@ -102,44 +97,36 @@ func UpdateProduct(w http.ResponseWriter, r *http.Request) {
 	mapErr := json.NewDecoder(r.Body).Decode(&product)
 
 	if mapErr != nil {
-		w.WriteHeader(http.StatusForbidden)
-		json.NewEncoder(w).Encode(mapErr.Error())
+		ResponseWriter(w, http.StatusForbidden, mapErr.Error())
 		return
 	}
 
 	err := product.ValidateProduct()
 
 	if err != nil {
-		w.WriteHeader(http.StatusForbidden)
-		json.NewEncoder(w).Encode(err)
+		ResponseWriter(w, http.StatusForbidden, err.Error())
 		return
 	}
 
-	product, err = models.UpdateProduct(product, id)
+	product, err = prodCtrl.Model.UpdateProduct(product, id)
 
 	if err != nil {
-		w.WriteHeader(http.StatusForbidden)
-		json.NewEncoder(w).Encode(err.Error())
+		ResponseWriter(w, http.StatusForbidden, err.Error())
 		return
 	}
-	w.WriteHeader(http.StatusOK)
-	json.NewEncoder(w).Encode(product)
+	ResponseWriter(w, http.StatusOK, product)
 }
 
-func DeleteProduct(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-type", "application/json")
-
+func (prodCtrl ProductController) DeleteProduct(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 
 	id, _ := strconv.Atoi(vars["product"])
 
-	err := models.DeleteProduct(id)
+	err := prodCtrl.Model.DeleteProduct(id)
 
 	if err != nil {
-		w.WriteHeader(http.StatusForbidden)
-		json.NewEncoder(w).Encode(err.Error())
+		ResponseWriter(w, http.StatusNotFound, err.Error())
 		return
 	}
-	w.WriteHeader(http.StatusAccepted)
-	json.NewEncoder(w).Encode("Successfully deleted")
+	ResponseWriter(w, http.StatusForbidden, "Successfully deleted")
 }
