@@ -89,17 +89,6 @@ func DeleteCategory(id int) error {
 	return err
 }
 
-func GetCategoryProducts(categoryId int, sort string, sortDir string, limit int, offset int) ([]migrations.Product, error) {
-	db := database.Connect()
-	defer database.CloseConnection(db)
-
-	var products []migrations.Product
-
-	err := db.Where("category_id = ?", categoryId).Order(fmt.Sprintf("%s %s", sort, sortDir)).Limit(limit).Offset(offset).Preload("Category").Find(&products).Error
-
-	return products, err
-}
-
 func CreateProduct(product migrations.Product) (migrations.Product, error) {
 	db := database.Connect()
 	defer db.Close()
@@ -109,7 +98,7 @@ func CreateProduct(product migrations.Product) (migrations.Product, error) {
 	return product, err
 }
 
-func GetProducts(sort string, sortDir string, limit int, offset int, search string) (migrations.ProductWithCount, error) {
+func GetProducts(sort string, sortDir string, limit int, offset int, search string, categoryId int) (migrations.ProductWithCount, error) {
 	db := database.Connect()
 	defer database.CloseConnection(db)
 
@@ -118,11 +107,22 @@ func GetProducts(sort string, sortDir string, limit int, offset int, search stri
 	var productsWithCount migrations.ProductWithCount
 	var count int64
 	if search != "" {
-		err = db.Joins("JOIN categories ON categories.id = products.category_id").Order(fmt.Sprintf("%s %s", sort, sortDir)).Limit(limit).Offset(offset).Where("products.name LIKE ? OR categories.name LIKE ?", fmt.Sprintf("%s%s%s", "%", search, "%"), fmt.Sprintf("%s%s%s", "%", search, "%")).Preload("Category").Find(&products).Error
-		err = db.Joins("JOIN categories ON categories.id = products.category_id").Order(fmt.Sprintf("%s %s", sort, sortDir)).Limit(limit).Offset(offset).Where("products.name LIKE ? OR categories.name LIKE ?", fmt.Sprintf("%s%s%s", "%", search, "%"), fmt.Sprintf("%s%s%s", "%", search, "%")).Model(&migrations.Product{}).Count(&count).Error
+		if categoryId > 0 {
+			err = db.Joins("JOIN categories ON categories.id = products.category_id").Order(fmt.Sprintf("%s %s", sort, sortDir)).Limit(limit).Offset(offset).Where("products.name LIKE ? OR categories.name LIKE ? AND products.category_id = ?", fmt.Sprintf("%s%s%s", "%", search, "%"), fmt.Sprintf("%s%s%s", "%", search, "%"), categoryId).Preload("Category").Find(&products).Error
+			err = db.Joins("JOIN categories ON categories.id = products.category_id").Where("products.name LIKE ? OR categories.name LIKE ? AND products.category_id = ?", fmt.Sprintf("%s%s%s", "%", search, "%"), fmt.Sprintf("%s%s%s", "%", search, "%"), categoryId).Model(&migrations.Product{}).Count(&count).Error
+		} else {
+			err = db.Joins("JOIN categories ON categories.id = products.category_id").Order(fmt.Sprintf("%s %s", sort, sortDir)).Limit(limit).Offset(offset).Where("products.name LIKE ? OR categories.name LIKE ?", fmt.Sprintf("%s%s%s", "%", search, "%"), fmt.Sprintf("%s%s%s", "%", search, "%")).Preload("Category").Find(&products).Error
+			err = db.Joins("JOIN categories ON categories.id = products.category_id").Where("products.name LIKE ? OR categories.name LIKE ?", fmt.Sprintf("%s%s%s", "%", search, "%"), fmt.Sprintf("%s%s%s", "%", search, "%")).Model(&migrations.Product{}).Count(&count).Error
+		}
+
 	} else {
-		err = db.Order(fmt.Sprintf("%s %s", sort, sortDir)).Limit(limit).Offset(offset).Preload("Category").Find(&products).Error
-		err = db.Model(&migrations.Product{}).Count(&count).Error
+		if categoryId > 0 {
+			err = db.Order(fmt.Sprintf("%s %s", sort, sortDir)).Limit(limit).Offset(offset).Where("category_id = ?", categoryId).Preload("Category").Find(&products).Error
+			err = db.Where("category_id = ?", categoryId).Model(&migrations.Product{}).Count(&count).Error
+		} else {
+			err = db.Order(fmt.Sprintf("%s %s", sort, sortDir)).Limit(limit).Offset(offset).Preload("Category").Find(&products).Error
+			err = db.Model(&migrations.Product{}).Count(&count).Error
+		}
 	}
 
 	productsWithCount.Products = products
