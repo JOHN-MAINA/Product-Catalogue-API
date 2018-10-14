@@ -15,21 +15,30 @@ func CreateCategory(category migrations.Category) (migrations.Category, error) {
 	return category, err
 }
 
-func GetCategories() ([]migrations.CategoryWithCount, error) {
+func GetCategories(sort string, sortDir string, limit int, offset int, search string) (migrations.CategoryWithCount, error) {
 	db := database.Connect()
 	defer database.CloseConnection(db)
 
 	var categories []migrations.Category
+	var categoriesWithCount migrations.CategoryWithCount
 
-	err := db.Order("name asc").Find(&categories).Error
-
-	if err != nil {
-		return nil, err
+	var categoriesCount int64
+	var err error
+	if search != "" {
+		err = db.Order(fmt.Sprintf("%s %s", sort, sortDir)).Limit(limit).Offset(offset).Where("categories.name LIKE ?", fmt.Sprintf("%s%s%s", "%", search, "%")).Find(&categories).Error
+		err = db.Where("categories.name LIKE ?", fmt.Sprintf("%s%s%s", "%", search, "%")).Model(&migrations.Category{}).Count(&categoriesCount).Error
+	} else {
+		err = db.Order(fmt.Sprintf("%s %s", sort, sortDir)).Limit(limit).Offset(offset).Find(&categories).Error
+		err = db.Model(&migrations.Category{}).Count(&categoriesCount).Error
 	}
 
-	var categoriesWithCount []migrations.CategoryWithCount
+	if err != nil {
+		fmt.Println(err.Error())
+		return categoriesWithCount, err
+	}
+	var categoriesWithProductsCount []migrations.CategoryWithProductCount
 	for _, category := range categories {
-		var categoryWithCount migrations.CategoryWithCount
+		var categoryWithCount migrations.CategoryWithProductCount
 		var count int64
 		db.Model(&migrations.Product{}).Where("category_id = ?", category.ID).Count(&count)
 
@@ -39,8 +48,11 @@ func GetCategories() ([]migrations.CategoryWithCount, error) {
 		categoryWithCount.DeletedAt = category.DeletedAt
 		categoryWithCount.UpdatedAt = category.UpdatedAt
 		categoryWithCount.ProductCount = count
-		categoriesWithCount = append(categoriesWithCount, categoryWithCount)
+		categoriesWithProductsCount = append(categoriesWithProductsCount, categoryWithCount)
 	}
+
+	categoriesWithCount.Categories = categoriesWithProductsCount
+	categoriesWithCount.CategoryCount = categoriesCount
 
 	return categoriesWithCount, err
 }
