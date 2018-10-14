@@ -1,10 +1,10 @@
 package handlers
 
 import (
-	"../config"
-	"../controllers"
 	"encoding/json"
 	"fmt"
+	"github.com/JOHN-MAINA/Product-Catalogue-API/config"
+	"github.com/JOHN-MAINA/Product-Catalogue-API/controllers"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
