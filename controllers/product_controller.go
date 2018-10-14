@@ -13,11 +13,19 @@ func GetProducts(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", "application/json")
 
 	var sort, sortDir, search = "name", "desc", ""
-	var limit, offset = 10, 0
+	var limit, offset, categoryId = 10, 0, 0
 
 	searchParam, _ := r.URL.Query()["search"]
 	if len(searchParam) >= 1 {
 		search = searchParam[0]
+	}
+
+	categoryParam, _ := r.URL.Query()["category_id"]
+	if len(categoryParam) >= 1 {
+		category, err := strconv.Atoi(categoryParam[0])
+		if err == nil {
+			categoryId = category
+		}
 	}
 
 	sortParam, _ := r.URL.Query()["sort"]
@@ -46,7 +54,7 @@ func GetProducts(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	products, err := models.GetProducts(sort, sortDir, limit, offset, search)
+	products, err := models.GetProducts(sort, sortDir, limit, offset, search, categoryId)
 	if err != nil {
 		w.WriteHeader(http.StatusForbidden)
 		json.NewEncoder(w).Encode(err.Error())

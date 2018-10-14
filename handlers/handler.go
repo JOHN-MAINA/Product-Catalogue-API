@@ -31,7 +31,6 @@ func Init() {
 	r.HandleFunc("/categories", controllers.CreateCategory).Methods("POST")
 	r.HandleFunc("/categories/{category}", controllers.UpdateCategory).Methods("PUT")
 	r.HandleFunc("/categories/{category}", controllers.DeleteCategory).Methods("DELETE")
-	r.HandleFunc("/categories/{category}/products", controllers.CategoryProducts).Methods("GET")
 
 	c := cors.New(cors.Options{
 		AllowedOrigins: []string{"*"},
