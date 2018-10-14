@@ -15,21 +15,30 @@ func CreateCategory(category migrations.Category) (migrations.Category, error) {
 	return category, err
 }
 
-func GetCategories() ([]migrations.CategoryWithCount, error) {
+func GetCategories(sort string, sortDir string, limit int, offset int, search string) (migrations.CategoryWithCount, error) {
 	db := database.Connect()
 	defer database.CloseConnection(db)
 
 	var categories []migrations.Category
+	var categoriesWithCount migrations.CategoryWithCount
 
-	err := db.Order("name asc").Find(&categories).Error
-
-	if err != nil {
-		return nil, err
+	var categoriesCount int64
+	var err error
+	if search != "" {
+		err = db.Order(fmt.Sprintf("%s %s", sort, sortDir)).Limit(limit).Offset(offset).Where("categories.name LIKE ?", fmt.Sprintf("%s%s%s", "%", search, "%")).Find(&categories).Error
+		err = db.Where("categories.name LIKE ?", fmt.Sprintf("%s%s%s", "%", search, "%")).Model(&migrations.Category{}).Count(&categoriesCount).Error
+	} else {
+		err = db.Order(fmt.Sprintf("%s %s", sort, sortDir)).Limit(limit).Offset(offset).Find(&categories).Error
+		err = db.Model(&migrations.Category{}).Count(&categoriesCount).Error
 	}
 
-	var categoriesWithCount []migrations.CategoryWithCount
+	if err != nil {
+		fmt.Println(err.Error())
+		return categoriesWithCount, err
+	}
+	var categoriesWithProductsCount []migrations.CategoryWithProductCount
 	for _, category := range categories {
-		var categoryWithCount migrations.CategoryWithCount
+		var categoryWithCount migrations.CategoryWithProductCount
 		var count int64
 		db.Model(&migrations.Product{}).Where("category_id = ?", category.ID).Count(&count)
 
@@ -39,8 +48,11 @@ func GetCategories() ([]migrations.CategoryWithCount, error) {
 		categoryWithCount.DeletedAt = category.DeletedAt
 		categoryWithCount.UpdatedAt = category.UpdatedAt
 		categoryWithCount.ProductCount = count
-		categoriesWithCount = append(categoriesWithCount, categoryWithCount)
+		categoriesWithProductsCount = append(categoriesWithProductsCount, categoryWithCount)
 	}
+
+	categoriesWithCount.Categories = categoriesWithProductsCount
+	categoriesWithCount.CategoryCount = categoriesCount
 
 	return categoriesWithCount, err
 }
@@ -97,15 +109,26 @@ func CreateProduct(product migrations.Product) (migrations.Product, error) {
 	return product, err
 }
 
-func GetProducts(sort string, sortDir string, limit int, offset int) ([]migrations.Product, error) {
+func GetProducts(sort string, sortDir string, limit int, offset int, search string) (migrations.ProductWithCount, error) {
 	db := database.Connect()
 	defer database.CloseConnection(db)
 
 	var products []migrations.Product
+	var err error
+	var productsWithCount migrations.ProductWithCount
+	var count int64
+	if search != "" {
+		err = db.Joins("JOIN categories ON categories.id = products.category_id").Order(fmt.Sprintf("%s %s", sort, sortDir)).Limit(limit).Offset(offset).Where("products.name LIKE ? OR categories.name LIKE ?", fmt.Sprintf("%s%s%s", "%", search, "%"), fmt.Sprintf("%s%s%s", "%", search, "%")).Preload("Category").Find(&products).Error
+		err = db.Joins("JOIN categories ON categories.id = products.category_id").Order(fmt.Sprintf("%s %s", sort, sortDir)).Limit(limit).Offset(offset).Where("products.name LIKE ? OR categories.name LIKE ?", fmt.Sprintf("%s%s%s", "%", search, "%"), fmt.Sprintf("%s%s%s", "%", search, "%")).Model(&migrations.Product{}).Count(&count).Error
+	} else {
+		err = db.Order(fmt.Sprintf("%s %s", sort, sortDir)).Limit(limit).Offset(offset).Preload("Category").Find(&products).Error
+		err = db.Model(&migrations.Product{}).Count(&count).Error
+	}
 
-	err := db.Order(fmt.Sprintf("%s %s", sort, sortDir)).Limit(limit).Offset(offset).Preload("Category").Find(&products).Error
+	productsWithCount.Products = products
+	productsWithCount.ProductsCount = count
 
-	return products, err
+	return productsWithCount, err
 }
 
 func UpdateProduct(product migrations.Product, id int) (migrations.Product, error) {

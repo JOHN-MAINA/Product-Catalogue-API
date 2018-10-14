@@ -31,7 +31,7 @@ The product management catalogue is a simple application to keep track of produc
 
 1. Set port number that the application will be served through default is set to `3001`
 
-1. Server the application via executing the executable or go run
+1. Serve the application via executing the executable or go run
     1. Create an executable 
     
         `go build`

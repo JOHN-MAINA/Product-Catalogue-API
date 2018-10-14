@@ -1,19 +1,24 @@
 package controllers
 
 import (
-	"../database/models"
 	"../database/migrations"
-	"net/http"
+	"../database/models"
 	"encoding/json"
-	"strconv"
 	"github.com/gorilla/mux"
+	"net/http"
+	"strconv"
 )
 
 func GetProducts(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-type", "application/json")
 
-	var sort, sortDir = "name", "desc"
+	var sort, sortDir, search = "name", "desc", ""
 	var limit, offset = 10, 0
+
+	searchParam, _ := r.URL.Query()["search"]
+	if len(searchParam) >= 1 {
+		search = searchParam[0]
+	}
 
 	sortParam, _ := r.URL.Query()["sort"]
 	if len(sortParam) >= 1 {
@@ -25,9 +30,9 @@ func GetProducts(w http.ResponseWriter, r *http.Request) {
 		sortDir = sortDirParam[0]
 	}
 
-	limitParam, _ := r.URL.Query()["count"]
-	if len(limitParam) >= 1 {
-		limitInt, err := strconv.Atoi(limitParam[0])
+	countParam, _ := r.URL.Query()["count"]
+	if len(countParam) >= 1 {
+		limitInt, err := strconv.Atoi(countParam[0])
 		if err == nil {
 			limit = limitInt
 		}
@@ -41,7 +46,7 @@ func GetProducts(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	products, err := models.GetProducts(sort, sortDir, limit, offset)
+	products, err := models.GetProducts(sort, sortDir, limit, offset, search)
 	if err != nil {
 		w.WriteHeader(http.StatusForbidden)
 		json.NewEncoder(w).Encode(err.Error())
