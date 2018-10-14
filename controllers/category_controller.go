@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"../database/migrations"
-	"../database/models"
 	"encoding/json"
+	"github.com/JOHN-MAINA/Product-Catalogue-API/database/migrations"
+	"github.com/JOHN-MAINA/Product-Catalogue-API/database/models"
 	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
@@ -102,14 +102,13 @@ func UpdateCategory(w http.ResponseWriter, r *http.Request) {
 	category, err = models.UpdateCategory(category, id)
 
 	if err != nil {
-		ResponseWriter(w, http.StatusForbidden, err.Error())
+		ResponseWriter(w, http.StatusNotFound, err.Error())
 		return
 	}
 	ResponseWriter(w, http.StatusOK, category)
 }
 
 func DeleteCategory(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-type", "application/json")
 	vars := mux.Vars(r)
 
 	category, _ := strconv.Atoi(vars["category"])
@@ -117,14 +116,13 @@ func DeleteCategory(w http.ResponseWriter, r *http.Request) {
 	err := models.DeleteCategory(category)
 
 	if err != nil {
-		w.WriteHeader(http.StatusForbidden)
-		json.NewEncoder(w).Encode(err.Error())
+		ResponseWriter(w, http.StatusNotFound, err.Error())
 		return
 	}
 	ResponseWriter(w, http.StatusAccepted, "Successfully deleted")
 }
 
-func ResponseWriter(w http.ResponseWriter, status int, resp interface{})  {
+func ResponseWriter(w http.ResponseWriter, status int, resp interface{}) {
 	w.Header().Set("Content-type", "application/json")
 	w.WriteHeader(status)
 	json.NewEncoder(w).Encode(resp)

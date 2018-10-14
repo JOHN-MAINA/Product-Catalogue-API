@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"../database/migrations"
-	"../database/models"
 	"encoding/json"
+	"github.com/JOHN-MAINA/Product-Catalogue-API/database/migrations"
+	"github.com/JOHN-MAINA/Product-Catalogue-API/database/models"
 	"github.com/gorilla/mux"
 	"net/http"
 	"strconv"
@@ -121,7 +121,7 @@ func DeleteProduct(w http.ResponseWriter, r *http.Request) {
 	err := models.DeleteProduct(id)
 
 	if err != nil {
-		ResponseWriter(w, http.StatusForbidden, err.Error())
+		ResponseWriter(w, http.StatusNotFound, err.Error())
 		return
 	}
 	ResponseWriter(w, http.StatusForbidden, "Successfully deleted")

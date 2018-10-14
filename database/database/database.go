@@ -1,8 +1,8 @@
 package database
 
 import (
-	"../../config"
 	"fmt"
+	"github.com/JOHN-MAINA/Product-Catalogue-API/config"
 
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
