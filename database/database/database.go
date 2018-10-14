@@ -13,15 +13,13 @@ var DB gorm.DB
 func Connect() gorm.DB {
 	defer recover()
 	dbURL := fmt.Sprintf("%s:%s@/%s?charset=utf8&parseTime=True&loc=Local", config.DbUser, config.DbPass, config.DbName)
-	db, err := gorm.Open("mysql", dbURL)
+	DB, err := gorm.Open("mysql", dbURL)
 
 	if err != nil {
 		panic(err.Error())
 	}
 
-	//defer db.Close()
-	return *db
-
+	return *DB
 }
 
 func CloseConnection(db gorm.DB) {

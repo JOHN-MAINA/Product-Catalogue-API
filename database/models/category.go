@@ -2,34 +2,33 @@ package models
 
 import (
 	"fmt"
-	"github.com/JOHN-MAINA/Product-Catalogue-API/database/database"
 	"github.com/JOHN-MAINA/Product-Catalogue-API/database/migrations"
+	"github.com/jinzhu/gorm"
 )
 
-func CreateCategory(category migrations.Category) (migrations.Category, error) {
-	db := database.Connect()
-	defer db.Close()
+type CategoryModel struct {
+	DB gorm.DB
+}
 
-	err := db.Create(&category).Error
+func (cm CategoryModel) CreateCategory(category migrations.Category) (migrations.Category, error) {
+
+	err := cm.DB.Create(&category).Error
 
 	return category, err
 }
 
-func GetCategories(sort string, sortDir string, limit int, offset int, search string) (migrations.CategoryWithCount, error) {
-	db := database.Connect()
-	defer database.CloseConnection(db)
-
+func (cm CategoryModel) GetCategories(sort string, sortDir string, limit int, offset int, search string) (migrations.CategoryWithCount, error) {
 	var categories []migrations.Category
 	var categoriesWithCount migrations.CategoryWithCount
 
 	var categoriesCount int64
 	var err error
 	if search != "" {
-		err = db.Order(fmt.Sprintf("%s %s", sort, sortDir)).Limit(limit).Offset(offset).Where("categories.name LIKE ?", fmt.Sprintf("%s%s%s", "%", search, "%")).Find(&categories).Error
-		err = db.Where("categories.name LIKE ?", fmt.Sprintf("%s%s%s", "%", search, "%")).Model(&migrations.Category{}).Count(&categoriesCount).Error
+		err = cm.DB.Order(fmt.Sprintf("%s %s", sort, sortDir)).Limit(limit).Offset(offset).Where("categories.name LIKE ?", fmt.Sprintf("%s%s%s", "%", search, "%")).Find(&categories).Error
+		err = cm.DB.Where("categories.name LIKE ?", fmt.Sprintf("%s%s%s", "%", search, "%")).Model(&migrations.Category{}).Count(&categoriesCount).Error
 	} else {
-		err = db.Order(fmt.Sprintf("%s %s", sort, sortDir)).Limit(limit).Offset(offset).Find(&categories).Error
-		err = db.Model(&migrations.Category{}).Count(&categoriesCount).Error
+		err = cm.DB.Order(fmt.Sprintf("%s %s", sort, sortDir)).Limit(limit).Offset(offset).Find(&categories).Error
+		err = cm.DB.Model(&migrations.Category{}).Count(&categoriesCount).Error
 	}
 
 	if err != nil {
@@ -40,7 +39,7 @@ func GetCategories(sort string, sortDir string, limit int, offset int, search st
 	for _, category := range categories {
 		var categoryWithCount migrations.CategoryWithProductCount
 		var count int64
-		db.Model(&migrations.Product{}).Where("category_id = ?", category.ID).Count(&count)
+		cm.DB.Model(&migrations.Product{}).Where("category_id = ?", category.ID).Count(&count)
 
 		categoryWithCount.Name = category.Name
 		categoryWithCount.ID = category.ID
@@ -57,34 +56,28 @@ func GetCategories(sort string, sortDir string, limit int, offset int, search st
 	return categoriesWithCount, err
 }
 
-func UpdateCategory(category migrations.Category, id int) (migrations.Category, error) {
-	db := database.Connect()
-	defer db.Close()
-
+func (cm CategoryModel) UpdateCategory(category migrations.Category, id int) (migrations.Category, error) {
 	var savedCate migrations.Category
 
-	err := db.First(&savedCate, id).Error
+	err := cm.DB.First(&savedCate, id).Error
 
 	if err != nil {
 		return category, err
 	}
 
-	err = db.Model(&savedCate).Update(migrations.Category{Name: category.Name}).Error
+	err = cm.DB.Model(&savedCate).Update(migrations.Category{Name: category.Name}).Error
 
 	return savedCate, err
 }
 
-func DeleteCategory(id int) error {
-	db := database.Connect()
-	defer db.Close()
-
+func (cm CategoryModel) DeleteCategory(id int) error {
 	var category migrations.Category
-	err := db.First(&category, id).Error
+	err := cm.DB.First(&category, id).Error
 
 	if err != nil {
 		return err
 	}
 
-	db.Delete(&category)
+	cm.DB.Delete(&category)
 	return err
 }
