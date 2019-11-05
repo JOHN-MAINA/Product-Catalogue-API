@@ -2,9 +2,9 @@ package controllers
 
 import (
 	"encoding/json"
-	"github.com/JOHN-MAINA/Product-Catalogue-API/database/migrations"
-	"github.com/JOHN-MAINA/Product-Catalogue-API/database/models"
 	"github.com/gorilla/mux"
+	"github.com/jqhnmaina/Product-Catalogue-API/database/migrations"
+	"github.com/jqhnmaina/Product-Catalogue-API/database/models"
 	"net/http"
 	"strconv"
 )

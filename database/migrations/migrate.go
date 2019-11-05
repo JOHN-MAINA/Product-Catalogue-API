@@ -1,6 +1,6 @@
 package migrations
 
-import "github.com/JOHN-MAINA/Product-Catalogue-API/database/database"
+import "github.com/jqhnmaina/Product-Catalogue-API/database/database"
 
 func Migrate() {
 

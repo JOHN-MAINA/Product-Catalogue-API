@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/JOHN-MAINA/Product-Catalogue-API/database/migrations"
-	"github.com/JOHN-MAINA/Product-Catalogue-API/handlers"
+	"github.com/jqhnmaina/Product-Catalogue-API/database/migrations"
+	"github.com/jqhnmaina/Product-Catalogue-API/handlers"
 )
 
 func main() {

@@ -2,8 +2,8 @@ package models
 
 import (
 	"fmt"
-	"github.com/JOHN-MAINA/Product-Catalogue-API/database/migrations"
 	"github.com/jinzhu/gorm"
+	"github.com/jqhnmaina/Product-Catalogue-API/database/migrations"
 )
 
 type ProductModel struct {

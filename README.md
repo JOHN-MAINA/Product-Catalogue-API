@@ -23,7 +23,7 @@ The product management catalogue is a simple application to keep track of produc
 
 1. clone the repository using
 
-    `git clone https://github.com/JOHN-MAINA/Product-Catalogue-API.git`
+    `git clone https://github.com/jqhnmaina/Product-Catalogue-API.git`
 
 1. install dependencies
 
