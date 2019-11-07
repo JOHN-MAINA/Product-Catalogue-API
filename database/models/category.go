@@ -11,9 +11,7 @@ type CategoryModel struct {
 }
 
 func (cm CategoryModel) CreateCategory(category migrations.Category) (migrations.Category, error) {
-
 	err := cm.DB.Create(&category).Error
-
 	return category, err
 }
 
