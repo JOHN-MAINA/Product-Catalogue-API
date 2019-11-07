@@ -20,7 +20,7 @@ func Connect() gorm.DB {
 
 	switch config.DbDialect {
 	case "postgres":
-		dbURL = fmt.Sprintf("host=%s port=%d user=%s dbname=%s password=%s", config.DbHost, config.DbPort, config.DbUser, config.DbName, config.DbPass)
+		dbURL = fmt.Sprintf("host=%s port=%s user=%s dbname=%s password=%s", config.DbHost, config.DbPort, config.DbUser, config.DbName, config.DbPass)
 		break
 	case "mysql":
 		dbURL = fmt.Sprintf("%s:%s@/%s?charset=utf8&parseTime=True&loc=Local", config.DbUser, config.DbPass, config.DbName)

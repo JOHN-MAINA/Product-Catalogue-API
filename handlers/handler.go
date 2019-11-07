@@ -10,6 +10,7 @@ import (
 	"github.com/jqhnmaina/Product-Catalogue-API/database/database"
 	"github.com/jqhnmaina/Product-Catalogue-API/database/models"
 	"github.com/rs/cors"
+	"log"
 	"net/http"
 	"os"
 )
@@ -52,5 +53,5 @@ func Init() {
 	// Insert the cors middleware
 	handler := c.Handler(r)
 
-	http.ListenAndServe(fmt.Sprintf(":%d", config.AppPort), handlers.CombinedLoggingHandler(os.Stdout, handler))
+	log.Println(http.ListenAndServe(fmt.Sprintf(":%d", config.AppPort), handlers.CombinedLoggingHandler(os.Stdout, handler)))
 }
