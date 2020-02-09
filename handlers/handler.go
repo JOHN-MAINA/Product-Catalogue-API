@@ -2,17 +2,12 @@ package handlers
 
 import (
 	"encoding/json"
-	"fmt"
-	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
-	"github.com/jqhnmaina/Product-Catalogue-API/config"
 	"github.com/jqhnmaina/Product-Catalogue-API/controllers"
 	"github.com/jqhnmaina/Product-Catalogue-API/database/database"
 	"github.com/jqhnmaina/Product-Catalogue-API/database/models"
 	"github.com/rs/cors"
-	"log"
 	"net/http"
-	"os"
 )
 
 var r = mux.NewRouter()
@@ -51,7 +46,7 @@ func Init() {
 	})
 
 	// Insert the cors middleware
-	handler := c.Handler(r)
+	_ = c.Handler(r)
 
-	log.Println(http.ListenAndServe(fmt.Sprintf(":%d", config.AppPort), handlers.CombinedLoggingHandler(os.Stdout, handler)))
+	//log.Println(http.ListenAndServe(fmt.Sprintf(":%d", config.AppPort), handlers.CombinedLoggingHandler(os.Stdout, handler)))
 }
