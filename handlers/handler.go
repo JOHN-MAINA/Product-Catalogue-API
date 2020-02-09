@@ -50,6 +50,8 @@ func Init() {
 		Debug:          false,
 	})
 
+	conn.Close()
+
 	// Insert the cors middleware
 	handler := c.Handler(r)
 
