@@ -59,7 +59,7 @@ func InitConfig() {
 	}
 
 	if port := os.Getenv("PORT"); len(port) == 0 {
-		log.Println("Init config variables: env var APP_PORT is not set using 3001 as default port")
+		log.Println("Init config variables: env var PORT is not set using 3001 as default port")
 	} else {
 		AppPort, _ = strconv.Atoi(port)
 	}
