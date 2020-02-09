@@ -47,7 +47,7 @@ func InitConfig() {
 	}
 
 	if dbPass := os.Getenv("DB_PASSWORD"); len(dbPass) == 0 {
-		log.Println("Init config variables: env var DB_USER is not set")
+		log.Println("Init config variables: env var DB_PASSWORD is not set")
 	} else {
 		DbPass = dbPass
 	}
